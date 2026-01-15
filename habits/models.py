@@ -4,23 +4,54 @@ from users.models import User
 
 
 class Habit(models.Model):
-    """ Модель привычка"""
+    """ Модель Полезная привычка"""
     name = models.CharField(max_length=150, unique=True, help_text='Название привычки')
-    user = models.ForeignKey(User, related_name='habit', help_text='Пользователь')
+    user = models.ForeignKey(User, related_name='habit', on_delete=models.CASCADE,help_text='Пользователь')
     place = models.CharField(max_length=200,  help_text='Место выполнения привычки')
     time = models.TimeField(help_text='Время выполнения привычки')
     action = models.CharField(max_length=250, help_text='Действие связанное с привычкой')
-    pleasant_habit = models.ForeignKey(PleasantHabit,related_name='PleasantHabit', help_text='Полезная привычка')
+    pleasant_habit = models.ForeignKey(PleasantHabit, null=True, blank=True, on_delete=models.SET_NULL, related_name='pleasant_habits', help_text='Полезная привычка')
     periodic = models.PositiveIntegerField(default=1, help_text='Периодичность выполнения привычки в днях')
     reward = models.CharField(max_length=250, null=True, blank=True, help_text='Вознаграждение за привычку')
-    time_to_complete = models.PositiveIntegerField(help_text='Время на выполнение в секундах')
+    duration = models.PositiveIntegerField(help_text='Время на выполнение в секундах')
     is_public = models.BooleanField(default=False, help_text='Публичность')
+
+
+    def __str__(self):
+        return f'{self.name} пользователя {self.user}'
+
+
+    class Meta:
+        verbose_name = 'Привычка'
+        plural_verbose_name = 'Привычки'
+
 
 
 class Place(models.Model):
     """Модель Место"""
     name = models.CharField(max_length=150, unique=True, help_text='Место выполнения привычки')
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Место'
+        plural_verbose_name = 'Места'
+
 
 class PleasantHabit(models.Model):
     """ Модель Полезная Привычка"""
+    name = models.CharField(max_length=150, unique=True, help_text='Имя приятной привычки')
+    is_pleasent = models.BooleanField(default=False, help_text='Признак приятной привычки')
+    user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE, help_text='Пользователь приятной привычки')
+
+
+    def __str__(self):
+        return f'{self.name} пользователя {self.user}'
+
+
+    class Meta:
+        verbose_name = 'Приятная привычка'
+        plural_verbose_name = 'Приятные привычки'
+
+
