@@ -27,7 +27,7 @@ class Habit(models.Model):
 
     class Meta:
         verbose_name = 'Привычка'
-        plural_verbose_name = 'Привычки'
+        verbose_name_plural = 'Привычки'
 
 
 
@@ -40,7 +40,7 @@ class Place(models.Model):
 
     class Meta:
         verbose_name = 'Место'
-        plural_verbose_name = 'Места'
+        verbose_name_plural = 'Места'
 
 
 class PleasantHabit(models.Model):
@@ -56,6 +56,6 @@ class PleasantHabit(models.Model):
 
     class Meta:
         verbose_name = 'Приятная привычка'
-        plural_verbose_name = 'Приятные привычки'
+        verbose_name_plural = 'Приятные привычки'
 
 
