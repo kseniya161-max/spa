@@ -30,11 +30,11 @@ class Habit(models.Model):
             raise ValidationError("Время не должно привышать 120 секунд")
 
 
-        if self.pleasant_habit and(self.reward and self.related_habit):
+        if self.pleasant_habit and(self.reward or self.related_habit):
             raise ValidationError("Приятная привычка не должна иметь вознаграждения или связанной привычки")
 
 
-        if self.related_habit and not self.related_habit.pleasant_habit:
+        if self.related_habit and not self.related_habit.is_pleasant:
             raise ValidationError("В связанные привычки могут попадать только привычки с признаком приятной привычки.")
 
 
