@@ -121,3 +121,6 @@ DATABASES = {
         "PORT": os.getenv("DATABASE_PORT", default="5432"),
     }
 }
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
