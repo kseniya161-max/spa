@@ -1,8 +1,7 @@
+from django.core.exceptions import ValidationError
 from django.db import models
-
 from users.models import User
-# from .models import PleasantHabit
-# from .models import Place
+
 
 
 class Habit(models.Model):
@@ -19,6 +18,28 @@ class Habit(models.Model):
     is_public = models.BooleanField(default=False, help_text='Публичность')
     related_habit = models.ForeignKey('self', null=True, blank=True, related_name='related_habits',
                                       on_delete=models.SET_NULL, help_text='Связанная привычка')
+
+
+    def clean(self):
+        """Метод Валидации"""
+        if self.reward and self.pleasant_habit:
+            raise ValidationError ("Нельзя одновременно указывать и Связанную привычку и Вознаграждение")
+
+
+        if self.duration > 120:
+            raise ValidationError("Время не должно привышать 120 секунд")
+
+
+        if self.pleasant_habit and(self.reward and self.related_habit):
+            raise ValidationError("Приятная привычка не должна иметь вознаграждения или связанной привычки")
+
+
+        if self.related_habit and not self.related_habit.pleasant_habit:
+            raise ValidationError("В связанные привычки могут попадать только привычки с признаком приятной привычки.")
+
+
+        if self.periodic < 7:
+            raise ValidationError("Нельзя выполнять привычку реже, чем 1 раз в 7 дней.")
 
 
     def __str__(self):
