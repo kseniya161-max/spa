@@ -3,11 +3,13 @@ from django.db import models
 
 class User(AbstractUser):
     """ модель Пользователей"""
-    name = models.CharField(max_length=150, null=True, blank=True, help_text='Имя Пользователя')
+    email = models.EmailField(max_length=35, unique=True, help_text="Введите email")
 
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.username
+        return self.email
 
     class Meta:
         verbose_name = 'Пользователь'
