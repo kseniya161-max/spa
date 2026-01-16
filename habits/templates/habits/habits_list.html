@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список привычек</title>
+</head>
+<body>
+    <h2>Список привычек</h2>
+    <ul>
+        {% for habit in habits %}
+            <li>{{ habit.name }} - {{ habit.place.name }} - {{ habit.time }}</li>
+        {% empty %}
+            <li>У Вас нет привычек.</li>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if habits.has_previous %}
+                <a href="?page=1">&laquo; Первая</a>
+                <a href="?page={{ habits.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+
+            <span class="current">
+                Страница {{ habits.number }} из {{ habits.paginator.num_pages }}.
+            </span>
+
+            {% if habits.has_next %}
+                <a href="?page={{ habits.next_page_number }}">Следующая</a>
+                <a href="?page={{ habits.paginator.num_pages }}">Последняя &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+</html>
