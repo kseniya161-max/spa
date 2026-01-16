@@ -4,4 +4,5 @@ from habits.views import HabitListView
 
 urlpatterns = [
     path('habits/', HabitListView.as_view(), name='habit_list'),
+    path('habits/public/', HabitPublicListView.as_view(), name='habit_public_list'),
     ]

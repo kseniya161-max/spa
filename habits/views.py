@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
 
+from habits.forms import HabitCreateForm
 from habits.models import Habit
 
 
@@ -13,4 +14,27 @@ class HabitListView(ListView):
 
     def get_queryset(self):
         return Habit.objects.filter(user=self.request.user)
-    
+
+
+
+class HabitPublicListView(ListView):
+    model = Habit
+    template_name = 'habits/habits_public_list.html'
+    context_object_name = 'habits_public'
+    paginate_by = 5
+
+
+    def get_queryset(self):
+        return Habit.objects.filter(is_public=True)
+
+
+class HabitCreateView(CreateView):
+    model = Habit
+    form_class = HabitCreateForm
+    template_name = 'habits/habits_create.html'
+    context_object_name = 'habits_create'
+    success_url = '/habits/'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
