@@ -3,7 +3,7 @@ from django import forms
 from habits.models import Habit
 
 
-class HabitCreateForm(forms.Modelform):
+class HabitCreateForm(forms.ModelForm):
     class Meta:
         model = Habit
         fields = ('name', 'action', 'duration', 'is_public', 'place', 'pleasant_habit', 'periodic', 'reward')

@@ -5,31 +5,27 @@
     <title>Список привычек</title>
 </head>
 <body>
-    <h2>Список привычек</h2>
+    <h1>Список привычек</h1>
+    <a href="{% url 'habit_create' %}">Создать новую привычку</a>
     <ul>
         {% for habit in habits %}
-            <li>{{ habit.name }} - {{ habit.place.name }} - {{ habit.time }}</li>
-        {% empty %}
-            <li>У Вас нет привычек.</li>
+            <li>
+                {{ habit.name }} - {{ habit.action }}
+                <a href="{% url 'habit_update' habit.pk %}">Редактировать</a>
+                <a href="{% url 'habit_delete' habit.pk %}">Удалить</a>
+            </li>
         {% endfor %}
     </ul>
 
-    <div class="pagination">
-        <span class="step-links">
-            {% if habits.has_previous %}
-                <a href="?page=1">&laquo; Первая</a>
-                <a href="?page={{ habits.previous_page_number }}">Предыдущая</a>
+    <div>
+        <span>Страницы: </span>
+        {% for page in page_obj.paginator.page_range %}
+            {% if page == page_obj.number %}
+                <strong>{{ page }}</strong>
+            {% else %}
+                <a href="?page={{ page }}">{{ page }}</a>
             {% endif %}
-
-            <span class="current">
-                Страница {{ habits.number }} из {{ habits.paginator.num_pages }}.
-            </span>
-
-            {% if habits.has_next %}
-                <a href="?page={{ habits.next_page_number }}">Следующая</a>
-                <a href="?page={{ habits.paginator.num_pages }}">Последняя &raquo;</a>
-            {% endif %}
-        </span>
+        {% endfor %}
     </div>
 </body>
 </html>

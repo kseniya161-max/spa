@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Создать привычку</title>
 </head>
 <body>
-
+    <h5>Создать привычку</h5>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Создать</button>
+    </form>
+    <a href="{% url 'habit_list' %}">Назад к списку привычек</a>
 </body>
 </html>

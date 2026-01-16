@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Удалить привычку</title>
 </head>
 <body>
-
+    <h1>Удалить привычку</h1>
+    <p>Вы уверены, что хотите удалить привычку "{{ habit.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Удалить</button>
+    </form>
+    <a href="{% url 'habit_list' %}">Назад к списку привычек</a>
 </body>
 </html>
