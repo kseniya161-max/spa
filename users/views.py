@@ -1,20 +1,37 @@
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
-from django.views import View
+from django.urls import reverse_lazy
+from django.views import View, generic
 
 from users.forms import CustomUsersCreationForm
+from users.models import User
 
 
-class RegistrationView(View):
-    def get (self, request):
-        form = CustomUsersCreationForm()
-        return render(request, 'users/registration.html', {'form': form})
+class RegistrationView(generic.CreateView):
+    model = User
+    form_class = CustomUsersCreationForm
+    template_name = 'users/registration.html'
+    success_url = reverse_lazy('login')
+    def form_valid(self, form):
 
+        return super().form_valid(form)
+
+
+class LoginView(View):
+    def get(self, request):
+        form = AuthenticationForm()
+        return render(request, 'users/login.html', {'form': form})
 
     def post(self, request):
-        form = CustomUsersCreationForm(request.POST)
+        form = AuthenticationForm(data=request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')
-        return render (request, 'users/registration.html', {'form': form} )
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')  # Замените 'home' на нужный URL после входа
+        return render(request, 'users/login.html', {'form': form})
 
 
