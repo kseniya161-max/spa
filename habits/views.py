@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView
 
 from habits.forms import HabitCreateForm
 from habits.models import Habit
@@ -38,3 +38,16 @@ class HabitCreateView(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class HabitUpdateView(UpdateView):
+    model = Habit
+    form_class = HabitCreateForm
+    template_name = 'habits/habits_update.html'
+    context_object_name = 'habits_update'
+    success_url = '/habits/'
+
+    def get_queryset(self):
+        return Habit.objects.filter(user=self.request.user)
+
+
