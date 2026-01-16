@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from habits.forms import HabitCreateForm
 from habits.models import Habit
@@ -49,5 +49,16 @@ class HabitUpdateView(UpdateView):
 
     def get_queryset(self):
         return Habit.objects.filter(user=self.request.user)
+
+
+class HabitDeleteView(DeleteView):
+    model = Habit
+    template_name = 'habits/habits_delete.html'
+    context_object_name = 'habits_delete'
+    success_url = '/habits/'
+
+    def get_queryset(self):
+        return Habit.objects.filter(user=self.request.user)
+
 
 
