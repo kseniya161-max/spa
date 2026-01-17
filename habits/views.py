@@ -1,64 +1,43 @@
-# from django.shortcuts import render
-# from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-#
-# from habits.forms import HabitCreateForm
-# from habits.models import Habit
-#
-#
-# class HabitListView(ListView):
-#     model = Habit
-#     template_name = 'habits/habits_list.html'
-#     context_object_name = 'habits'
-#     paginate_by = 5
-#
-#
-#     def get_queryset(self):
-#         return Habit.objects.filter(user=self.request.user)
-#
-#
-#
-# class HabitPublicListView(ListView):
-#     model = Habit
-#     template_name = 'habits/habits_public_list.html'
-#     context_object_name = 'habits_public'
-#     paginate_by = 5
-#
-#
-#     def get_queryset(self):
-#         return Habit.objects.filter(is_public=True)
-#
-#
-# class HabitCreateView(CreateView):
-#     model = Habit
-#     form_class = HabitCreateForm
-#     template_name = 'habits/habits_create.html'
-#     context_object_name = 'habits_create'
-#     success_url = '/habits/'
-#
-#     def form_valid(self, form):
-#         form.instance.user = self.request.user
-#         return super().form_valid(form)
-#
-#
-# class HabitUpdateView(UpdateView):
-#     model = Habit
-#     form_class = HabitCreateForm
-#     template_name = 'habits/habits_update.html'
-#     context_object_name = 'habits_update'
-#     success_url = '/habits/'
-#
-#     def get_queryset(self):
-#         return Habit.objects.filter(user=self.request.user)
-#
-#
-# class HabitDeleteView(DeleteView):
-#     model = Habit
-#     template_name = 'habits/habits_delete.html'
-#     context_object_name = 'habits_delete'
-#     success_url = '/habits/'
-#
-#     def get_queryset(self):
-#         return Habit.objects.filter(user=self.request.user)
-#
-#
-#
+from django.db.migrations import serializer
+from rest_framework import permissions
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.viewsets import ModelViewSet
+
+from habits.models import Habit, PleasantHabit
+from habits.serializers import HabitSerializer, PleasantHabitSerializer
+
+
+class CustomPagination(PageNumberPagination):
+    page_size = 5
+
+
+class HabitViewSet(ModelViewSet):
+    serializer_class = HabitSerializer
+    pagination_class = CustomPagination
+
+
+    def get_queryset(self):
+        user = self.request.user
+        if self.request.user.is_authenticated:
+            return Habit.objects.filter(user=user)
+        return Habit.objects.filter(is_public=True)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class PleasantHabitViewSet(ModelViewSet):
+    serializer_class = PleasantHabitSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        if self.request.user.is_authenticated:
+            return PleasantHabit.objects.filter(user=user)
+        return PleasantHabit.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+
