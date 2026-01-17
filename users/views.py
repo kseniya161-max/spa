@@ -1,37 +1,33 @@
-# from django.contrib.auth import authenticate, login
-# from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-# from django.shortcuts import render, redirect
-# from django.urls import reverse_lazy
-# from django.views import View, generic
-#
-# from users.forms import CustomUsersCreationForm
-# from users.models import User
-#
-#
-# class RegistrationView(generic.CreateView):
-#     model = User
-#     form_class = CustomUsersCreationForm
-#     template_name = 'users/registration.html'
-#     success_url = reverse_lazy('login')
-#     def form_valid(self, form):
-#
-#         return super().form_valid(form)
-#
-#
-# class LoginView(View):
-#     def get(self, request):
-#         form = AuthenticationForm()
-#         return render(request, 'users/login.html', {'form': form})
-#
-#     def post(self, request):
-#         form = AuthenticationForm(data=request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password')
-#             user = authenticate(username=username, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 return redirect('home')  # Замените 'home' на нужный URL после входа
-#         return render(request, 'users/login.html', {'form': form})
-#
-#
+
+from django.contrib.auth import authenticate
+from django.db.migrations import serializer
+from rest_framework import generics, status
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+
+from users.models import User
+from users.serializers import UserRegisterSerializer, UserLoginSerializer
+
+
+class UserRegistrationView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserRegisterSerializer
+    permission_classes = [AllowAny]
+
+
+class UserLoginView(generics.GenericAPIView):
+    serializer_class = UserLoginSerializer
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = authenticate(**serializer.validated_data)
+        if user is None:
+            return Response({'error': 'Неверный email или пароль'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key}, status=status.HTTP_200_OK)
+
+
