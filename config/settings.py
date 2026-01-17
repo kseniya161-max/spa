@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'habits',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -144,3 +146,7 @@ CELERY_BEAT_SCHEDULE = {
         'args': ('Выпить литр Воды',),
     },
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
