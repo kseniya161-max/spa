@@ -5,7 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from habits.models import Habit, PleasantHabit
 from habits.serializers import HabitSerializer, PleasantHabitSerializer
-
+from habits.tasks import send_habit_reminder
 
 class CustomPagination(PageNumberPagination):
     page_size = 5
@@ -23,7 +23,8 @@ class HabitViewSet(ModelViewSet):
         return Habit.objects.filter(is_public=True)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        habit = serializer.save(user=self.request.user)
+        send_habit_reminder.apply_async((habit.name,), countdown=3600)
 
 
 class PleasantHabitViewSet(ModelViewSet):

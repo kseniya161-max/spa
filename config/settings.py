@@ -133,3 +133,14 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    'send-habit-reminders-every-day': {
+        'task': 'habits.tasks.send_habit_reminder',
+        'schedule': crontab(hour=9, minute=0),
+        'args': ('Выпить литр Воды',),
+    },
+}
