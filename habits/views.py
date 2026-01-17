@@ -1,3 +1,5 @@
+import datetime
+
 from django.db.migrations import serializer
 from rest_framework import permissions
 from rest_framework.pagination import PageNumberPagination
@@ -24,7 +26,12 @@ class HabitViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         habit = serializer.save(user=self.request.user)
-        send_habit_reminder.apply_async((habit.name,), countdown=3600)
+
+        now = datetime.now()
+        reminder_time = datetime.combine(now.date(), habit.time)
+        if reminder_time < now:
+            reminder_time += datetime.timedelta(days=1)
+        send_habit_reminder.apply_async((habit.name,), eta=reminder_time)
 
 
 class PleasantHabitViewSet(ModelViewSet):
