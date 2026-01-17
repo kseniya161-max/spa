@@ -114,7 +114,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'
 import os
 load_dotenv()
 
@@ -131,3 +131,5 @@ DATABASES = {
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
