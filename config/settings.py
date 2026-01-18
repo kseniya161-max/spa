@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "drf_yasg",
     "pytest",
-    "pytest-django",
 ]
 
 REST_FRAMEWORK = {

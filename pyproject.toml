@@ -20,7 +20,8 @@ dependencies = [
     "drf-yasg (>=1.21.14,<2.0.0)",
     "flake8 (>=7.3.0,<8.0.0)",
     "black (>=26.1.0,<27.0.0)",
-    "pytest (>=9.0.2,<10.0.0)"
+    "pytest (>=9.0.2,<10.0.0)",
+    "pytest-django (>=4.11.1,<5.0.0)"
 ]
 
 
@@ -31,12 +32,23 @@ build-backend = "poetry.core.masonry.api"
 [dependency-groups]
 dev = [
     "pytest-django (>=4.11.1,<5.0.0)",
-    "pytest (>=9.0.2,<10.0.0)"
+    "pytest (>=9.0.2,<10.0.0)",
+    "coverage (>=7.13.1,<8.0.0)"
 ]
 
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
+
+
+[[tool.poetry.packages]]
+include = "habits"
+
+[[tool.poetry.packages]]
+include = "users"
+
+[[tool.poetry.packages]]
+include = "config"
 
 
