@@ -16,7 +16,8 @@ dependencies = [
     "python-telegram-bot (>=22.5,<23.0)",
     "celery (>=5.6.2,<6.0.0)",
     "redis (>=7.1.0,<8.0.0)",
-    "django-cors-headers (>=4.9.0,<5.0.0)"
+    "django-cors-headers (>=4.9.0,<5.0.0)",
+    "drf-yasg (>=1.21.14,<2.0.0)"
 ]
 
 

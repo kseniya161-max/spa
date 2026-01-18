@@ -1,6 +1,7 @@
 import datetime
 
 from django.db.migrations import serializer
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet
@@ -16,6 +17,11 @@ class CustomPagination(PageNumberPagination):
 class HabitViewSet(ModelViewSet):
     serializer_class = HabitSerializer
     pagination_class = CustomPagination
+
+    @swagger_auto_schema(
+        operation_description="Получение списка привычек",
+        responses={200: HabitSerializer(many=True)},
+    )
 
 
     def get_queryset(self):
@@ -37,6 +43,11 @@ class HabitViewSet(ModelViewSet):
 class PleasantHabitViewSet(ModelViewSet):
     serializer_class = PleasantHabitSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_description="Получение списка приятных привычек",
+        responses={200: PleasantHabitSerializer(many=True)},
+    )
 
     def get_queryset(self):
         user = self.request.user
