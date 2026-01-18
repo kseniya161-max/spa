@@ -9,29 +9,50 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('habits', '0001_initial'),
-        ('users', '0001_initial'),
+        ("habits", "0001_initial"),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='habit',
-            name='user',
-            field=models.ForeignKey(help_text='Пользователь', on_delete=django.db.models.deletion.CASCADE, related_name='habits', to='users.user'),
+            model_name="habit",
+            name="user",
+            field=models.ForeignKey(
+                help_text="Пользователь",
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="habits",
+                to="users.user",
+            ),
         ),
         migrations.AddField(
-            model_name='habit',
-            name='place',
-            field=models.ForeignKey(help_text='Место выполнения привычки', on_delete=django.db.models.deletion.CASCADE, to='habits.place'),
+            model_name="habit",
+            name="place",
+            field=models.ForeignKey(
+                help_text="Место выполнения привычки",
+                on_delete=django.db.models.deletion.CASCADE,
+                to="habits.place",
+            ),
         ),
         migrations.AddField(
-            model_name='pleasanthabit',
-            name='user',
-            field=models.ForeignKey(help_text='Пользователь приятной привычки', on_delete=django.db.models.deletion.CASCADE, related_name='pleasant_habits', to='users.user'),
+            model_name="pleasanthabit",
+            name="user",
+            field=models.ForeignKey(
+                help_text="Пользователь приятной привычки",
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="pleasant_habits",
+                to="users.user",
+            ),
         ),
         migrations.AddField(
-            model_name='habit',
-            name='pleasant_habit',
-            field=models.ForeignKey(blank=True, help_text='Приятная привычка', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='pleasant_habits', to='habits.pleasanthabit'),
+            model_name="habit",
+            name="pleasant_habit",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="Приятная привычка",
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="pleasant_habits",
+                to="habits.pleasanthabit",
+            ),
         ),
     ]

@@ -1,4 +1,3 @@
-
 from celery import shared_task
 import telegram
 import os
@@ -7,8 +6,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-TOKEN = os.getenv('TELEGRAM_TOKEN')
+TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = 6980147515
+
 
 @shared_task
 def send_habit_reminder(habit_name):

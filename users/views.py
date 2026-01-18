@@ -23,9 +23,10 @@ class UserLoginView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = authenticate(**serializer.validated_data)
         if user is None:
-            return Response({'error': 'Неверный email или пароль'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "Неверный email или пароль"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key}, status=status.HTTP_200_OK)
-
-
+        return Response({"token": token.key}, status=status.HTTP_200_OK)

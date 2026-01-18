@@ -8,49 +8,130 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Place',
+            name="Place",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Место выполнения привычки', max_length=150, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        help_text="Место выполнения привычки",
+                        max_length=150,
+                        unique=True,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Место',
-                'verbose_name_plural': 'Места',
+                "verbose_name": "Место",
+                "verbose_name_plural": "Места",
             },
         ),
         migrations.CreateModel(
-            name='PleasantHabit',
+            name="PleasantHabit",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Имя приятной привычки', max_length=150, unique=True)),
-                ('is_pleasant', models.BooleanField(default=True, help_text='Признак приятной привычки')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        help_text="Имя приятной привычки", max_length=150, unique=True
+                    ),
+                ),
+                (
+                    "is_pleasant",
+                    models.BooleanField(
+                        default=True, help_text="Признак приятной привычки"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Приятная привычка',
-                'verbose_name_plural': 'Приятные привычки',
+                "verbose_name": "Приятная привычка",
+                "verbose_name_plural": "Приятные привычки",
             },
         ),
         migrations.CreateModel(
-            name='Habit',
+            name="Habit",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Название привычки', max_length=150, unique=True)),
-                ('time', models.TimeField(help_text='Время выполнения привычки')),
-                ('action', models.CharField(help_text='Действие связанное с привычкой', max_length=250)),
-                ('periodic', models.PositiveIntegerField(default=1, help_text='Периодичность выполнения привычки в днях')),
-                ('reward', models.CharField(blank=True, help_text='Вознаграждение за привычку', max_length=250, null=True)),
-                ('duration', models.PositiveIntegerField(help_text='Время на выполнение в секундах')),
-                ('is_public', models.BooleanField(default=False, help_text='Публичность')),
-                ('related_habit', models.ForeignKey(blank=True, help_text='Связанная привычка', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='related_habits', to='habits.habit')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        help_text="Название привычки", max_length=150, unique=True
+                    ),
+                ),
+                ("time", models.TimeField(help_text="Время выполнения привычки")),
+                (
+                    "action",
+                    models.CharField(
+                        help_text="Действие связанное с привычкой", max_length=250
+                    ),
+                ),
+                (
+                    "periodic",
+                    models.PositiveIntegerField(
+                        default=1, help_text="Периодичность выполнения привычки в днях"
+                    ),
+                ),
+                (
+                    "reward",
+                    models.CharField(
+                        blank=True,
+                        help_text="Вознаграждение за привычку",
+                        max_length=250,
+                        null=True,
+                    ),
+                ),
+                (
+                    "duration",
+                    models.PositiveIntegerField(
+                        help_text="Время на выполнение в секундах"
+                    ),
+                ),
+                (
+                    "is_public",
+                    models.BooleanField(default=False, help_text="Публичность"),
+                ),
+                (
+                    "related_habit",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="Связанная привычка",
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="related_habits",
+                        to="habits.habit",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Привычка',
-                'verbose_name_plural': 'Привычки',
+                "verbose_name": "Привычка",
+                "verbose_name_plural": "Привычки",
             },
         ),
     ]

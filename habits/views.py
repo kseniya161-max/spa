@@ -10,6 +10,7 @@ from habits.models import Habit, PleasantHabit
 from habits.serializers import HabitSerializer, PleasantHabitSerializer
 from habits.tasks import send_habit_reminder
 
+
 class CustomPagination(PageNumberPagination):
     page_size = 5
 
@@ -22,8 +23,6 @@ class HabitViewSet(ModelViewSet):
         operation_description="Получение списка привычек",
         responses={200: HabitSerializer(many=True)},
     )
-
-
     def get_queryset(self):
         user = self.request.user
         if self.request.user.is_authenticated:
@@ -48,7 +47,6 @@ class PleasantHabitViewSet(ModelViewSet):
         operation_description="Получение списка приятных привычек",
         responses={200: PleasantHabitSerializer(many=True)},
     )
-
     def get_queryset(self):
         user = self.request.user
         if self.request.user.is_authenticated:
@@ -57,6 +55,3 @@ class PleasantHabitViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
-
-

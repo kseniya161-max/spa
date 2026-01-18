@@ -15,10 +15,10 @@ from rest_framework.routers import DefaultRouter
 from habits.views import HabitViewSet, PleasantHabitViewSet
 
 router = DefaultRouter()
-router.register(r'habits', HabitViewSet, basename='habit')
-router.register(r'pleasent_habit', PleasantHabitViewSet, basename='pleasent_habits')
+router.register(r"habits", HabitViewSet, basename="habit")
+router.register(r"pleasent_habit", PleasantHabitViewSet, basename="pleasent_habits")
 
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path("", include(router.urls)),
 ]
