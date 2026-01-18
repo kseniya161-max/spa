@@ -1,0 +1,54 @@
+[project]
+name = "spa"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "django (>=6.0.1,<7.0.0)",
+    "djangorestframework (>=3.16.1,<4.0.0)",
+    "psycopg2 (>=2.9.11,<3.0.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)",
+    "pillow (>=12.1.0,<13.0.0)",
+    "python-telegram-bot (>=22.5,<23.0)",
+    "celery (>=5.6.2,<6.0.0)",
+    "redis (>=7.1.0,<8.0.0)",
+    "django-cors-headers (>=4.9.0,<5.0.0)",
+    "drf-yasg (>=1.21.14,<2.0.0)",
+    "flake8 (>=7.3.0,<8.0.0)",
+    "black (>=26.1.0,<27.0.0)",
+    "pytest (>=9.0.2,<10.0.0)",
+    "pytest-django (>=4.11.1,<5.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest-django (>=4.11.1,<5.0.0)",
+    "pytest (>=9.0.2,<10.0.0)",
+    "coverage (>=7.13.1,<8.0.0)"
+]
+
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+
+
+[[tool.poetry.packages]]
+include = "habits"
+
+[[tool.poetry.packages]]
+include = "users"
+
+[[tool.poetry.packages]]
+include = "config"
+
+
