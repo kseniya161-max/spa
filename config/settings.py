@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_yasg",
+    "pytest",
+    "pytest-django",
 ]
 
 REST_FRAMEWORK = {
