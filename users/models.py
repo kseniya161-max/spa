@@ -6,6 +6,10 @@ class User(AbstractUser):
     """модель Пользователей"""
 
     email = models.EmailField(max_length=35, unique=True, help_text="Введите email")
+    username = models.CharField(max_length=150, unique=True, blank=True, null=True,
+                                help_text="Имя пользователя (необязательно)")
+    telegram_id = models.CharField(max_length=50, blank=True, null=True, help_text="ID пользователя в Telegram")
+    telegram_username = models.CharField(max_length=50, blank=True, null=True, help_text="Имя пользователя в Telegram")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
