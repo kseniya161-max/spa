@@ -7,7 +7,7 @@ from users.models import User
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["email", "password"]
+        fields = ["email", "password", "telegram_username"]
 
     def create(self, validated_data):
         user = User(**validated_data)
