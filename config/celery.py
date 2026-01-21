@@ -5,8 +5,11 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 app = Celery("spa")
 
+app.conf.broker_url = 'redis://redis:6379/0'
+
 
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
 
 app.autodiscover_tasks()
+
