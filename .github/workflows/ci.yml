@@ -80,8 +80,9 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no "${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}" << 'EOF'
-          sudo docker pull "${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}"
-          sudo docker stop app || true
-          sudo docker rm app || true
+          if [ $(docker ps -aq -f name=app) ]; then
+              sudo docker stop app || true
+              sudo docker rm app || true
+          fi
           sudo docker run -d --name app -p 80:8000 "${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}"
           EOF
