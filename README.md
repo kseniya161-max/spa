@@ -15,6 +15,7 @@
 1. **Клонируйте репозиторий**:
    ```bash
    git clone https://github.com/kseniya161-max/spa.git
+
 2. Установите зависимости:
 curl -sSL https://install.python-poetry.org | python3 -
 
